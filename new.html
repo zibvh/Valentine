@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #ff5f9e, #ff2d55);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 14px 26px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .yes {
+      background: #2ecc71;
+      color: #000;
+    }
+
+    .no {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 250px;
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    footer {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      padding: 10px 0;
+    }
+    p .tickle {
+      font-size: 1.2rem;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <h1 id="title">Will you be my Valentine? 💖</h1>
+
+    <div class="buttons" id="buttons">
+      <button class="yes" id="yesBtn">Yes</button>
+      <button class="no" id="noBtn">No</button>
+    </div>
+
+    <div id="media"></div>
+    <p class="tickle" id="tickle"></p>
+  </main>
+
+  <footer>
+    Made with love ❤️ by Zibah
+  </footer>
+
+  <script>
+    let noCount = 0;
+    let interactionLocked = false;
+    const startTime = Date.now();
+
+    const title = document.getElementById("title");
+    const buttons = document.getElementById("buttons");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const media = document.getElementById("media");
+
+    function movedOn() {
+      title.innerText =
+        "I've moved on 🙄\nSheesh, get a hold of yourself.\nI don't love you anymore.";
+      buttons.innerHTML = "";
+      media.innerHTML = `
+        <img src="https://media.giphy.com/media/l2QDP39mURZH1Ble0/giphy.gif" alt="heartbreak">
+      `;
+      interactionLocked = true;
+    }
+
+    yesBtn.onclick = () => {
+      if (interactionLocked) return;
+
+      const seconds = Math.floor((Date.now() - startTime) / 1000);
+
+      if (noCount === 0) {
+        title.innerText =
+          `It took you 2 seconds to click Yes???\nNaah, I think I'll go elsewhere.`;
+        buttons.innerHTML = "";
+        interactionLocked = true;
+      } else {
+        movedOn();
+      }
+    };
+
+    noBtn.onclick = () => {
+      if (interactionLocked) return;
+
+      noCount++;
+
+      if (noCount === 1) {
+        yesBtn.innerText = "Pretty please 🥺";
+      } 
+      else if (noCount === 2) {
+        yesBtn.innerText = "I'm begging you 😩";
+      } 
+      else if (noCount === 3) {
+        let tickle = document.getElementById("tickle")
+        tickle.innerText = "Tickle tickle tickle"
+        title.innerText =
+          "Alright, imma have to do this the hard way.\nwhat if i pet you :)";
+        buttons.innerHTML = `
+          <button class="yes" id="finalYes">Yes</button>
+        `;
+        media.innerHTML = `
+          <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="love potion">
+        `;
+
+        document.getElementById("finalYes").onclick = movedOn;
+      }
+    };
+  </script>
+
+</body>
+</html>
