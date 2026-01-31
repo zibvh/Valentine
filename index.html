@@ -8,89 +8,125 @@
   <style>
     * {
       box-sizing: border-box;
-      font-family: "Segoe UI", system-ui, sans-serif;
+      font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ff5f9e, #ff2d55);
+      background: radial-gradient(circle at top, #ff7eb3, #ff2d55);
       color: #fff;
-      text-align: center;
       padding: 20px;
     }
 
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      max-width: 600px;
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 40px 25px;
+      max-width: 520px;
       width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      animation: fadeUp 0.8s ease;
     }
 
     h1 {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      margin-bottom: 20px;
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      margin-bottom: 25px;
+      line-height: 1.3;
+      white-space: pre-line;
     }
 
     .buttons {
       display: flex;
       gap: 15px;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
 
     button {
-      padding: 14px 26px;
+      padding: 15px 30px;
       font-size: 1rem;
       border: none;
-      border-radius: 30px;
+      border-radius: 999px;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.2s ease;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
 
     button:hover {
-      transform: scale(1.05);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.95);
     }
 
     .yes {
-      background: #2ecc71;
-      color: #000;
+      background: linear-gradient(135deg, #2ecc71, #6dff9c);
+      color: #0b3d1c;
     }
 
     .no {
-      background: #e74c3c;
+      background: linear-gradient(135deg, #ff4b4b, #ff7676);
       color: #fff;
     }
 
-    img {
-      margin-top: 20px;
-      max-width: 250px;
+    #media img {
+      margin-top: 25px;
+      max-width: 260px;
       width: 100%;
-      border-radius: 12px;
+      border-radius: 16px;
+      animation: popIn 0.5s ease;
+    }
+
+    #tickle {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      color: #1a1a1a;
+      font-weight: 500;
     }
 
     footer {
+      margin-top: 25px;
       font-size: 0.85rem;
       opacity: 0.8;
-      padding: 10px 0;
     }
-    p .tickle {
-      font-size: 1.2rem;
-      color: black;
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <main>
+  <div class="card">
     <h1 id="title">Will you be my Valentine? 💖</h1>
 
     <div class="buttons" id="buttons">
@@ -99,12 +135,12 @@
     </div>
 
     <div id="media"></div>
-    <p class="tickle" id="tickle"></p>
-  </main>
+    <p id="tickle"></p>
 
-  <footer>
-    Made with love ❤️ by Zibah
-  </footer>
+    <footer>
+      Made with love ❤️ by Zibah
+    </footer>
+  </div>
 
   <script>
     let noCount = 0;
@@ -116,13 +152,14 @@
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const media = document.getElementById("media");
+    const tickle = document.getElementById("tickle");
 
     function movedOn() {
       title.innerText =
         "I've moved on 🙄\nSheesh, get a hold of yourself.\nI don't love you anymore.";
       buttons.innerHTML = "";
       media.innerHTML = `
-        <img src="https://media.giphy.com/media/l2QDP39mURZH1Ble0/giphy.gif" alt="heartbreak">
+        <img src="https://media.giphy.com/media/l2QDP39mURZH1Ble0/giphy.gif">
       `;
       interactionLocked = true;
     }
@@ -130,11 +167,9 @@
     yesBtn.onclick = () => {
       if (interactionLocked) return;
 
-      const seconds = Math.floor((Date.now() - startTime) / 1000);
-
       if (noCount === 0) {
         title.innerText =
-          `It took you 2 seconds to click Yes???\nNaah, I think I'll go elsewhere.`;
+          "It took you 2 seconds to click Yes???\nNah… I deserve enthusiasm.";
         buttons.innerHTML = "";
         interactionLocked = true;
       } else {
@@ -154,17 +189,15 @@
         yesBtn.innerText = "I'm begging you 😩";
       } 
       else if (noCount === 3) {
-        let tickle = document.getElementById("tickle")
-        tickle.innerText = "Tickle tickle tickle"
+        tickle.innerText = "Tickle tickle tickle 😈";
         title.innerText =
-          "Alright, imma have to do this the hard way.\nwhat if i pet you :)";
+          "Alright… last card.\nWhat if I pet you 🙂";
         buttons.innerHTML = `
           <button class="yes" id="finalYes">Yes</button>
         `;
         media.innerHTML = `
-          <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="love potion">
+          <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
         `;
-
         document.getElementById("finalYes").onclick = movedOn;
       }
     };
